@@ -1,0 +1,23 @@
+name: 액션 연습
+
+on:
+  push:
+    branches: main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ssh 로 ec2 접속
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script_stop: true
+          script:
+          cd /home/ubuntu/git-action
+          sudo git pull origin main
+          sudo ./mvnw clean package
+          sudo fuser -k tcp 8080 || true
+          nohup java -jar ./target/*.jar &
