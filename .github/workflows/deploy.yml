@@ -16,8 +16,8 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script_stop: true
           script:
-          cd /home/ubuntu/git-action
-          sudo git pull origin main
-          sudo ./mvnw clean package
-          sudo fuser -k tcp 8080 || true
-          nohup java -jar ./target/*.jar &
+            cd /home/ubuntu/git-action
+            sudo git pull origin main
+            sudo ./mvnw clean package
+            sudo fuser -k tcp 8080 || true
+            nohup java -jar ./target/*.jar &
